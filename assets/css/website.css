@@ -1,0 +1,39 @@
+h1,h3,p,a,nobr
+{
+    font-family: 'Roboto', Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+	color:#FFFFFF;
+}
+
+h1,h2
+{
+	text-align:center;
+}
+
+body
+{
+	background-color:#000000;
+	z-index:-1;
+}
+
+.navbar
+{
+	position:fixed;
+	z-index:1;
+	width:100%;
+	top:0px;
+	left:0px;
+	height:28px;
+	background-color:#000000;
+}
+
+.navbar-link,.navbar-current
+{
+	opacity:0.3;
+	text-decoration:none;
+	margin-left:20px;
+}
+
+.navbar-current
+{
+	opacity:1;
+}
