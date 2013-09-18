@@ -1,24 +1,9 @@
 var LINK_FADE_TIME = 300;
-var BODY_FADE_TIME = 1000;
-var num_wallpaper = 9;
-var current_wallpaper = Math.floor(Math.random()*num_wallpaper);
-
-function nextWallpaper()
-{
-	current_wallpaper++;
-	if (current_wallpaper >= num_wallpaper)
-		current_wallpaper = 0;
-	$("#bg-image").attr("src", "assets/img/bg/bg"+current_wallpaper+".jpg");
-	$("#bg-image").css("display", "none");
-	$("#bg-image").fadeIn(2500);
-}
+var BODY_FADE_TIME = 300;
 
 // Adds event handlers and starts some animations
 function onPageShow()
 {
-//	window.setInterval(nextWallpaper, 2500);
-	nextWallpaper();
-
 	// Fade in main part of <body>
 	$(".body-center").css("display", "none");
 	$(".body-center").fadeIn(BODY_FADE_TIME);
@@ -26,6 +11,11 @@ function onPageShow()
 	// Following two lines for browsers that bfcache, thanks Firefox
 	$(".navbar-current").css("opacity","1");
 	$(".navbar-link").css("opacity","0.3");
+
+	var c = document.getElementById('bg_canvas');
+	var ctx=c.getContext('2d');
+	ctx.fillStyle='#FF0000';
+	ctx.fillRect(0,0,80,100);
 
 	// Hover effect for links
 	$(".navbar-link").hover(
@@ -59,8 +49,6 @@ $(document).ready(function()
 		event.preventDefault(); // Intercept page change
 		$(this).unbind("mouseleave"); // Don't allow link to go dark
 		var dest = this.href; // Save destination page
-
-		$("#bg-image").fadeOut(BODY_FADE_TIME);
 		// Fade out current page's link
 		$(".navbar-current").animate({opacity:'0.3'},{duration:LINK_FADE_TIME,queue:false});
 		// Fade out body and only when done, load next page
