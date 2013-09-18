@@ -2,9 +2,10 @@ h1,h3,p,a,nobr
 {
     font-family: 'Roboto', Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
 	color:#FFFFFF;
+	text-align:justify;
 }
 
-h1,h2
+h1
 {
 	text-align:center;
 }
@@ -12,7 +13,9 @@ h1,h2
 body
 {
 	background-color:#000000;
+	background-repeat:no-repeat;
 	z-index:-1;
+	text-align:center;
 }
 
 .navbar
@@ -26,6 +29,11 @@ body
 	background-color:#000000;
 }
 
+.navbar-body
+{
+	text-align:center;
+}
+
 .navbar-link,.navbar-current
 {
 	opacity:0.3;
@@ -36,4 +44,11 @@ body
 .navbar-current
 {
 	opacity:1;
+}
+
+.body-center
+{
+	margin-left:20px;
+	margin-right:20px;
+	margin-top:40px;
 }
