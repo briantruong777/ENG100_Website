@@ -13,15 +13,13 @@ h1
 body
 {
 	background-color:#000000;
-	background-repeat:no-repeat;
-	z-index:0;
 	text-align:center;
 }
 
 .navbar
 {
 	position:fixed;
-	z-index:2;
+	z-index:1;
 	width:100%;
 	top:0px;
 	left:0px;
@@ -54,7 +52,6 @@ body
 #bg_canvas
 {
 	position:fixed;
-	z-index:5;
 	left:0;
 	top:0;
 	width:100%;
