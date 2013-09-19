@@ -2,15 +2,49 @@ var LINK_FADE_TIME = 300;
 var BODY_FADE_TIME = 300;
 var c;
 var ctx;
-var pts = new Array(20, 20);
+var width;
+var height;
+var imageData;
+var pts = new Array();
+
+function resized()
+{
+	width=$(window).width();
+	height=$(window).height();
+	$("#bg_canvas").attr("width",width);
+	$("#bg_canvas").attr("height",height);
+}
+
+function setPixel(x, y, pImageData)
+{
+	idx = 4*(width*y + x);
+	pImageData.data[idx+0] = 255;
+	pImageData.data[idx+1] = 255;
+	pImageData.data[idx+2] = 255;
+	pImageData.data[idx+3] = 255;
+}
+
+function clearPixel(x, y, pImageData)
+{
+	idx = 4*(width*y + x);
+	pImageData.data[idx+0] = 0;
+	pImageData.data[idx+1] = 0;
+	pImageData.data[idx+2] = 0;
+	pImageData.data[idx+3] = 0;
+}
 
 function draw()
 {
-	ctx.clearRect(0,0,1000,1000);
-	pts[0] = pts[0] + 1;
-	pts[1] = pts[1] + 1;
+	imageData = ctx.createImageData(width, height);
+	for (var i = 0; i < pts.length; i += 2)
+	{
+		clearPixel(pts[i],pts[i+1],imageData);
+		pts[i] = pts[i] + 1;
+		pts[i+1] = pts[i+1] + 1;
+		setPixel(pts[i],pts[i+1],imageData);
+	}
 
-	ctx.fillRect(pts[0], pts[1], 3, 3);
+	ctx.putImageData(imageData, 0, 0);
 }
 
 // Adds event handlers and starts some animations
@@ -24,13 +58,16 @@ function onPageShow()
 	$(".navbar-current").css("opacity","1");
 	$(".navbar-link").css("opacity","0.3");
 
+	resized();
+	$(window).resize(resized);
+
 	c = document.getElementById('bg_canvas');
 	ctx=c.getContext('2d');
+	imageData = ctx.createImageData(width, height);
+	pts.push(50);
+	pts.push(50);
 
-	ctx.fillStyle='#FFFFFF';
-	ctx.strokeStyle='#FFFFFF';
-
-	window.setInterval(draw,100);
+	window.setInterval(draw,10);
 
 	// Hover effect for links
 	$(".navbar-link").hover(
