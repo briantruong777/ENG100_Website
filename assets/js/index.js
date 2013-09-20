@@ -1,6 +1,5 @@
 var LINK_FADE_TIME = 300;
 var BODY_FADE_TIME = 300;
-var c;
 var ctx;
 var width;
 var height;
@@ -8,7 +7,6 @@ var ctrX;
 var ctrY;
 var mouseX;
 var mouseY;
-var imageData;
 var pts = new Array();
 var timeout;
 
@@ -61,7 +59,7 @@ function cancelGenPointCont()
 
 function setPixel(x, y, pImageData)
 {
-	idx = 4*(width*y + x);
+	var idx = 4*(width*y + x);
 	pImageData.data[idx+0] = 255;
 	pImageData.data[idx+1] = 255;
 	pImageData.data[idx+2] = 255;
@@ -70,7 +68,7 @@ function setPixel(x, y, pImageData)
 
 function clearPixel(x, y, pImageData)
 {
-	idx = 4*(width*y + x);
+	var idx = 4*(width*y + x);
 	pImageData.data[idx+0] = 0;
 	pImageData.data[idx+1] = 0;
 	pImageData.data[idx+2] = 0;
@@ -79,35 +77,41 @@ function clearPixel(x, y, pImageData)
 
 function draw(timeStamp)
 {
-	imageData = ctx.createImageData(width, height);
+	var imageData = ctx.createImageData(width, height);
 	for (var i = 0; i < pts.length; i += 4)
 	{
-		pts[i] += pts[i+2];
-		pts[i+1] += pts[i+3];
+		var x = pts[i];
+		var y = pts[i+1];
 
-		if (pts[i] < 0)
+		x += pts[i+2];
+		y += pts[i+3];
+
+		if (x < 0)
 		{
-			pts[i] = 0;
+			x = 0;
 			pts[i+2] = -1 * pts[i+2];
 		}
-		else if (pts[i] > width)
+		else if (x > width)
 		{
-			pts[i] = width;
+			x = width;
 			pts[i+2] = -1 * pts[i+2];
 		}
 
-		if (pts[i+1] < 0)
+		if (y < 0)
 		{
-			pts[i+1] = 0;
+			y = 0;
 			pts[i+3] = -1 * pts[i+3];
 		}
-		else if (pts[i+1] > height)
+		else if (y > height)
 		{
-			pts[i+1] = height;
+			y = height;
 			pts[i+3] = -1 * pts[i+3];
 		}
 
-		setPixel(pts[i],pts[i+1],imageData);
+		setPixel(x,y,imageData);
+
+		pts[i] = x;
+		pts[i+1] = y;
 	}
 
 	ctx.putImageData(imageData, 0, 0);
@@ -117,22 +121,29 @@ function draw(timeStamp)
 // Adds event handlers and starts some animations
 function onPageShow()
 {
-	// Fade in main part of <body>
-	$(".body-center").css("display", "none");
-	$(".body-center").fadeIn(BODY_FADE_TIME);
-
 	// Following two lines for browsers that bfcache, thanks Firefox
-	$(".navbar-current").css("opacity","1");
 	$(".navbar-link").css("opacity","0.3");
+	$("#navbar-current").css("opacity","1");
 
-	$(".navbar").css("background-color","transparent");
+	// Fade in main part of <body>
+	$("#body-center").css("display", "none");
+	$("#body-center").fadeIn(BODY_FADE_TIME);
+
+	$("#bg_canvas").css("display", "none");
+	$("#bg_canvas").fadeIn(BODY_FADE_TIME);
+
+
+}
+
+$(document).ready(function()
+{
+	$("#navbar").css("background-color","transparent");
 
 	resized();
-	$(window).resize(resized);
+	window.onresize = resized;
 
-	c = document.getElementById('bg_canvas');
+	var c = document.getElementById('bg_canvas');
 	ctx=c.getContext('2d');
-	imageData = ctx.createImageData(width, height);
 	pts.push(ctrX);
 	pts.push(ctrY);
 	pts.push(1);
@@ -184,10 +195,7 @@ function onPageShow()
 		{
 			$(this).animate({opacity:'0.3'}, {duration:LINK_FADE_TIME,queue:false});
 		});
-}
-
-$(document).ready(function()
-{
+	$("#navbar-current").unbind("mouseleave");
 	// Firefox's bfcaching causes issues unless I use onpageshow event
 	// instead of relying on jQuery's ready()
 	if (window.onpageshow === null)
@@ -210,8 +218,8 @@ $(document).ready(function()
 		$("#bg_canvas").fadeOut(BODY_FADE_TIME);
 
 		// Fade out current page's link
-		$(".navbar-current").animate({opacity:'0.3'},{duration:LINK_FADE_TIME,queue:false});
+		$("#navbar-current").animate({opacity:'0.3'},{duration:LINK_FADE_TIME,queue:false});
 		// Fade out body and only when done, load next page
-		$(".body-center").fadeOut(BODY_FADE_TIME,function(){window.location.assign(dest);});
+		$("#body-center").fadeOut(BODY_FADE_TIME,function(){window.location.assign(dest);});
 	});
 });

@@ -16,7 +16,7 @@ body
 	text-align:center;
 }
 
-.navbar
+#navbar
 {
 	position:fixed;
 	z-index:1;
@@ -27,19 +27,19 @@ body
 	background-color:#000000;
 }
 
-.navbar-link,.navbar-current
+.navbar-link
 {
 	opacity:0.3;
 	text-decoration:none;
 	margin-left:20px;
 }
 
-.navbar-current
+#navbar-current
 {
 	opacity:1;
 }
 
-.body-center
+#body-center
 {
 	margin-left:auto;
 	margin-right:auto;

@@ -5,12 +5,12 @@ var BODY_FADE_TIME = 300;
 function onPageShow()
 {
 	// Fade in main part of <body>
-	$(".body-center").css("display", "none");
-	$(".body-center").fadeIn(BODY_FADE_TIME);
+	$("#body-center").css("display", "none");
+	$("#body-center").fadeIn(BODY_FADE_TIME);
 
 	// Following two lines for browsers that bfcache, thanks Firefox
-	$(".navbar-current").css("opacity","1");
 	$(".navbar-link").css("opacity","0.3");
+	$("#navbar-current").css("opacity","1");
 
 	// Hover effect for links
 	$(".navbar-link").hover(
@@ -45,31 +45,8 @@ $(document).ready(function()
 		$(this).unbind("mouseleave"); // Don't allow link to go dark
 		var dest = this.href; // Save destination page
 		// Fade out current page's link
-		$(".navbar-current").animate({opacity:'0.3'},{duration:LINK_FADE_TIME,queue:false});
+		$("#navbar-current").animate({opacity:'0.3'},{duration:LINK_FADE_TIME,queue:false});
 		// Fade out body and only when done, load next page
-		$(".body-center").fadeOut(BODY_FADE_TIME,function(){window.location.assign(dest);});
+		$("#body-center").fadeOut(BODY_FADE_TIME,function(){window.location.assign(dest);});
 	});
 });
-
-
-
-
-/*
-var foo = null;
-
-function doMove()
-{
-	foo.style.left = parseInt(foo.style.left)+1+'px';
-	if (parseInt(foo.style.left) < 500)
-		setTimeout(doMove, 20);
-}
-
-function init()
-{
-	foo = document.getElementById ("fooObject");
-	foo.style.left='0px';
-	doMove();
-}
-
-window.onload = init;
-*/
