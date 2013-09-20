@@ -1,5 +1,6 @@
 var LINK_FADE_TIME = 300;
 var BODY_FADE_TIME = 300;
+var MAX_NUM_PTS = 1000;
 var ctx;
 var scrWidth;
 var scrHeight;
@@ -27,22 +28,25 @@ function getMousePos(event)
 // Adds new random point to array
 function genPoint()
 {
-	var velX = Math.floor(21*Math.random()) - 10;
-	var velY = Math.floor(21*Math.random()) - 10;
-	if (velX == 0 || velY == 0)
-	{
-		var rand;
-		if (Math.random() > 0.5)
-			rand = 1;
-		else
-			rand = -1;
+  if (pts.length < MAX_NUM_PTS * 4)
+  {
+    var velX = Math.floor(21*Math.random()) - 10;
+    var velY = Math.floor(21*Math.random()) - 10;
+    if (velX == 0 || velY == 0)
+    {
+      var rand;
+      if (Math.random() > 0.5)
+        rand = 1;
+      else
+        rand = -1;
 
-		if (Math.random() > 0.5)
-			velX = rand;
-		else
-			velY = rand;
-	}
-	pts.push(mouseX, mouseY, velX, velY);
+      if (Math.random() > 0.5)
+        velX = rand;
+      else
+        velY = rand;
+    }
+    pts.push(mouseX, mouseY, velX, velY);
+  }
 }
 
 // Generates a point and then sets up timer to generate more points
